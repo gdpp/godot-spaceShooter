@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://cf3wte14qim8n"]
+
+[ext_resource type="PackedScene" uid="uid://cyejkt0lqxy17" path="res://scenes/player.tscn" id="1_2q6dc"]
+[ext_resource type="Script" uid="uid://be22iuxexud03" path="res://scenes/level.gd" id="1_mx8sn"]
+[ext_resource type="Texture2D" uid="uid://dy0apgbtj73fl" path="res://graphics/other/bg.png" id="1_w8frs"]
+[ext_resource type="PackedScene" uid="uid://c3t8vhsvtpb44" path="res://scenes/meteor.tscn" id="3_mx8sn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8frs"]
+size = Vector2(25, 720)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mx8sn"]
+size = Vector2(1290, 20)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_mx8sn")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(643, 385)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_w8frs")
+
+[node name="Player" parent="." instance=ExtResource("1_2q6dc")]
+position = Vector2(535, 418)
+
+[node name="Meteor" parent="." instance=ExtResource("3_mx8sn")]
+position = Vector2(497, 268)
+
+[node name="Boundaries" type="Node2D" parent="."]
+
+[node name="Right" type="StaticBody2D" parent="Boundaries"]
+
+[node name="RightCollider" type="CollisionShape2D" parent="Boundaries/Right"]
+position = Vector2(1289, 363)
+shape = SubResource("RectangleShape2D_w8frs")
+
+[node name="Left" type="StaticBody2D" parent="Boundaries"]
+
+[node name="LeftCollider" type="CollisionShape2D" parent="Boundaries/Left"]
+position = Vector2(-9, 361)
+shape = SubResource("RectangleShape2D_w8frs")
+
+[node name="Top" type="StaticBody2D" parent="Boundaries"]
+
+[node name="TopCollider" type="CollisionShape2D" parent="Boundaries/Top"]
+position = Vector2(647, -7)
+shape = SubResource("RectangleShape2D_mx8sn")
+
+[node name="Bottom" type="StaticBody2D" parent="Boundaries"]
+
+[node name="BottomCollider" type="CollisionShape2D" parent="Boundaries/Bottom"]
+position = Vector2(649, 735)
+shape = SubResource("RectangleShape2D_mx8sn")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
